@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Slf4j
 @SpringBootApplication
 @ServletComponentScan
-//@MapperScan
 @EnableCaching
 @EnableTransactionManagement
 public class ReggieApplication {
