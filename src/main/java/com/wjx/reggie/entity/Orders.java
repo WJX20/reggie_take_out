@@ -1,6 +1,8 @@
 package com.wjx.reggie.entity;
 
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -10,6 +12,7 @@ import java.time.LocalDateTime;
  * 订单
  */
 @Data
+@ApiModel("订单")
 public class Orders implements Serializable {
 
     private static final long serialVersionUID = 1L;

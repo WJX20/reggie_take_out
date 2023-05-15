@@ -9,6 +9,10 @@ import com.wjx.reggie.entity.Setmeal;
 import com.wjx.reggie.service.CategoryService;
 import com.wjx.reggie.service.SetmealDishService;
 import com.wjx.reggie.service.SetmealService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +33,7 @@ import java.util.stream.Collectors;
 @RestController
 @Slf4j
 @RequestMapping("/setmeal")
+@Api(tags = "套餐相关接口")
 public class SetmealController {
 
     @Autowired
@@ -42,6 +47,7 @@ public class SetmealController {
 
     //新增套餐
     @PostMapping
+    @ApiOperation(value = "新增套餐接口")
     @CacheEvict(value = "setmealCache",allEntries = true)
     public R<String> save(@RequestBody SetmealDto setmealDto){
         log.info("套餐信息：{}",setmealDto);
@@ -51,6 +57,12 @@ public class SetmealController {
 
     //套餐分页查询
     @GetMapping("/page")
+    @ApiOperation(value = "套餐分页查询接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", value = "页码", required = true),
+            @ApiImplicitParam(name = "pageSize", value = "每页记录数", required = true),
+            @ApiImplicitParam(name = "name", value = "套餐名称", required = true)
+    })
     public R<Page> page(int page, int pageSize, String name){
         //分页构造器对象
         Page<Setmeal> pageInfo = new Page<>(page,pageSize);
@@ -89,6 +101,7 @@ public class SetmealController {
 
     //删除套餐 ids
     @DeleteMapping
+    @ApiOperation(value = "删除套餐接口")
     @CacheEvict(value = "setmealCache",allEntries = true)
     public R<String> delete(@RequestParam List<Long> ids){
         log.info("ids:{}",ids);
@@ -98,6 +111,7 @@ public class SetmealController {
 
     //根据id查询套餐数据
     @GetMapping("/list")
+    @ApiOperation(value = "套餐条件查询接口")
     @Cacheable(value = "setmealCache",key = "#setmeal.categoryId + '_' + #setmeal.status" )
     public R<List<Setmeal>> list(Setmeal setmeal){
         LambdaQueryWrapper<Setmeal> queryWrapper = new LambdaQueryWrapper<>();
